@@ -1,0 +1,29 @@
+{
+  "parser": "babel-eslint",
+  "extends": "rackt",
+  "rules": {
+    "valid-jsdoc": 2,
+    // Disable until Flow supports let and const
+    "no-var": 0,
+    "react/jsx-uses-react": 1,
+    "react/jsx-no-undef": 2,
+    "react/wrap-multilines": 2,
+    "flowtype/space-after-type-colon": [
+      1,
+      "always"
+    ],
+    "flowtype/space-before-type-colon": [
+      1,
+      "never"
+    ],
+  },
+  "plugins": [
+    "react",
+    "flowtype"
+  ],
+  "settings": {
+    "flowtype": {
+        "onlyFilesWithFlowAnnotation": false
+    }
+  }
+}

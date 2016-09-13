@@ -1,0 +1,136 @@
+{
+  "name": "@vizidrix/cqjs",
+  "npmName": "@vizidrix/cqjs",
+  "version": "0.1.0",
+  "description": "The CQJS (Command Query JS) library provides support for an event oriented runtime designed to support clean Single Page App development.",
+  "main": "dist/cqjs.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src",
+    "index.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rimraf lib dist es coverage",
+    "lint2": "eslint src test examples build",
+    "lint": "eslint src test build",
+    "tape": "babel-tape-runner \"test/*.test.js\" | faucet",
+    "mocha": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive",
+    "test": "npm run --silent tape",
+    "test:clear": "clear & npm run --silent test",
+    "watch": "nodemon -q -x 'npm run --silent test:clear'",
+    "test:cov": "cross-env BABEL_ENV=commonjs babel-node $(npm bin)/isparta cover $(npm bin)/_mocha -- --recursive",
+    "test:examples": "cross-env BABEL_ENV=commonjs babel-node examples/testAll.js",
+    "check:src": "npm run lint && npm run test",
+    "check:examples": "cross-env BABEL_ENV=commonjs babel-node examples/testAll.js",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/cqjs.js",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/cqjs.min.js",
+    "build:examples": "cross-env BABEL_ENV=commonjs babel-node examples/buildAll.js",
+    "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
+    "prepublish": "npm run clean && npm run check:src && npm run build && check-es3-syntax lib/ dist/ --kill",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && gitbook build -g vizidrix/cqjs && cp logo/apple-touch-icon.png _book/gitbook/images/apple-touch-icon-precomposed-152.png && cp logo/favicon.ico _book/gitbook/images",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:vizidrix/cqjs gh-pages --force"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vizidrix/cqjs.git"
+  },
+  "keywords": [
+    "cqjs",
+    "cqrs",
+    "command",
+    "query",
+    "responsibility",
+    "segregation"
+  ],
+  "author": "Vizidrix (admin@vizidrix.com)",
+  "contributors": [
+    "Perry Birch <perrybirch@vizidrix.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vizidrix/cqjs/issues"
+  },
+  "homepage": "https://github.com/vizidrix/cqjs#README",
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "lodash-es": "^4.13.1",
+    "loose-envify": "^1.2.0",
+    "symbol-observable": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "6.14.0",
+    "babel-core": "6.14.0",
+    "babel-eslint": "6.1.2",
+    "babel-loader": "6.2.5",
+    "babel-plugin-check-es2015-constants": "6.8.0",
+    "babel-plugin-transform-class-properties": "6.11.5",
+    "babel-plugin-transform-es2015-arrow-functions": "6.8.0",
+    "babel-plugin-transform-es2015-block-scoped-functions": "6.8.0",
+    "babel-plugin-transform-es2015-block-scoping": "6.15.0",
+    "babel-plugin-transform-es2015-classes": "6.14.0",
+    "babel-plugin-transform-es2015-computed-properties": "6.8.0",
+    "babel-plugin-transform-es2015-destructuring": "6.9.0",
+    "babel-plugin-transform-es2015-for-of": "6.8.0",
+    "babel-plugin-transform-es2015-function-name": "6.9.0",
+    "babel-plugin-transform-es2015-literals": "6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.14.0",
+    "babel-plugin-transform-es2015-object-super": "6.8.0",
+    "babel-plugin-transform-es2015-parameters": "6.11.4",
+    "babel-plugin-transform-es2015-shorthand-properties": "6.8.0",
+    "babel-plugin-transform-es2015-spread": "6.8.0",
+    "babel-plugin-transform-es2015-sticky-regex": "6.8.0",
+    "babel-plugin-transform-es2015-template-literals": "6.8.0",
+    "babel-plugin-transform-es2015-unicode-regex": "6.11.0",
+    "babel-plugin-transform-es3-member-expression-literals": "6.8.0",
+    "babel-plugin-transform-es3-property-literals": "6.8.0",
+    "babel-plugin-transform-flow-strip-types": "6.14.0",
+    "babel-plugin-transform-object-rest-spread": "6.8.0",
+    "babel-preset-es2015": "6.14.0",
+    "babel-preset-stage-0": "6.5.0",
+    "babel-preset-stage-1": "6.13.0",
+    "babel-preset-stage-2": "6.13.0",
+    "babel-register": "6.14.0",
+    "babel-tape-runner": "2.0.1",
+    "blue-tape": "1.0.0",
+    "check-es3-syntax-cli": "0.1.2",
+    "cross-env": "2.0.1",
+    "eslint": "3.5.0",
+    "eslint-config-rackt": "1.1.1",
+    "eslint-plugin-flowtype": "2.16.1",
+    "eslint-plugin-react": "6.2.0",
+    "expect": "1.20.2",
+    "faucet": "0.0.1",
+    "gitbook-cli": "2.3.0",
+    "glob": "7.0.6",
+    "isparta": "4.0.0",
+    "nodemon": "1.10.2",
+    "rimraf": "2.5.4",
+    "rxjs": "5.0.0-beta.12",
+    "tape": "4.6.0",
+    "typescript": "1.8.10",
+    "typescript-definition-tester": "0.0.4",
+    "webpack": "1.13.2"
+  },
+  "npmFileMap": [
+    {
+      "basePath": "/dist/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ],
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  }
+}

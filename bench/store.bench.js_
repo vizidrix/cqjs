@@ -1,0 +1,20 @@
+import { Event, Suite } from 'benchmark'
+
+// import { Store }   from '../src/index'
+
+const suite = new Suite();
+
+suite
+.add('make store', () => {
+  /o/.test('Bench test')
+})
+.on('cycle', (e: Event) => {
+  console.log('Finished: ', String(e.target))
+})
+.on('complete', function() {
+  let fastest = this.filter('fastest');
+  console.log('Fastest is ', fastest.pluck('name'))
+  // console.log('- [', fastest, ']')
+  // console.log('Fastest is ', this) 
+})
+.run({ 'async': true })

@@ -1,0 +1,30 @@
+# Library files
+es/
+es6/
+es5/
+dist/
+lib/
+
+# Type definitions
+typings/
+*.d.ts
+
+# Dependency directory
+node_modules/
+
+# Coverage artifacts
+coverage/
+
+# OSX cruft
+.DS_Store
+
+# Documentation artifacts
+_book/
+
+# Logs
+npm-debug.log
+test.tap
+*.log
+
+cache/
+*.tgz

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CQJS basic example</title>
+    <script src="../../dist/cqjs.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <p>
+        Clicked: <span id="counterLabel">0</span> times
+        <button id="increment">+</button>
+        <button id="decrement">-</button>
+        <button id="incrementIfOdd">Increment if odd</button>
+        <button id="incrementAsync">Increment async</button>
+      </p>
+    </div>
+    <script>
+
+var DOMAIN = new CQJS.Domain('DOMAIN', 0, { keyFunc: CQJS.Singleton });
+
+var VALUE_UPDATED = DOMAIN.Event('VALUE_UPDATED', function(a, e) {
+  return e
+})
+
+var INCREMENT = DOMAIN.Command('INCREMENT', function(a, c) {
+  return VALUE_UPDATED.new(a + 1)
+})
+
+var DECREMENT = DOMAIN.Command('DECREMENT', function(a, c) {
+  return VALUE_UPDATED.new(a - 1)
+})
+
+var INCREMENT_IF_ODD = DOMAIN.Command('INCREMENT_IF_ODD', function(a, c) {
+  if (a % 2 == 0) {
+    return VALUE_UPDATED.new(a)
+  }
+  return VALUE_UPDATED.new(a + 1)
+})
+
+var COUNTER_LABEL_VIEW = new CQJS.View('COUNTER_LABEL_VIEW',
+  document.getElementById('counterLabel'),
+
+  VALUE_UPDATED.handler(function(c, e) {
+    c.innerHTML = e
+  })
+)
+
+var SYSTEM = new CQJS.System(DOMAIN, COUNTER_LABEL_VIEW);
+
+document.getElementById('increment')
+  .addEventListener('click', function () {
+    SYSTEM.dispatch(INCREMENT.new())
+  })
+
+document.getElementById('decrement')
+  .addEventListener('click', function () {
+    SYSTEM.dispatch(DECREMENT.new())
+  })
+
+document.getElementById('incrementIfOdd')
+  .addEventListener('click', function() {
+    SYSTEM.dispatch(INCREMENT_IF_ODD.new())
+  })
+
+document.getElementById('incrementAsync')
+  .addEventListener('click', function () {
+    setTimeout(function () {
+      SYSTEM.dispatch(INCREMENT.new())
+    }, 1000)
+  })
+
+    </script>
+  </body>
+</html>

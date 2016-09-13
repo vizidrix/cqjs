@@ -1,0 +1,52 @@
+{
+  "name": "cqjs-todos-example",
+  "version": "0.0.0",
+  "description": "CQJS todos example",
+  "scripts": {
+    "start": "node server.js",
+    "tape": "cross-env NODE_ENV=test babel-tape-runner \"*/*.test.js\" | faucet",
+    "test": "npm run --silent tape",
+    "test:clear": "clear & npm run --silent test",
+    "watch": "nodemon -q -x 'npm run --silent test:clear'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vizidrix/cqjs.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vizidrix/cqjs/issues"
+  },
+  "homepage": "http://cqjs.github.io",
+  "dependencies": {
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "cqjs": "file:../../../cqjs"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-register": "^6.9.0",
+    "babel-tape-runner": "2.0.1",
+    "blue-tape": "0.2.0",
+    "cross-env": "^1.0.8",
+    "enzyme": "^2.4.1",
+    "expect": "^1.20.2",
+    "faucet": "0.0.1",
+    "express": "^4.14.0",
+    "nodemon": "1.9.2",
+    "node-libs-browser": "^1.0.0",
+    "react-addons-test-utils": "^15.2.1",
+    "tape": "4.6.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.12.1"
+  }
+}
