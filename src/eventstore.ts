@@ -4,17 +4,17 @@
 
 'use strict'
 
-import * as rx from 'rxjs'
+// import * as rx from 'rxjs'
 
-import { IDomain } from './domain'
-import { IEvent } from './event'
+// import { IDomain } from './domain'
+// import { IEvent } from './event'
 
-// import { EventStream, IEventStream } from './eventstream'
-// import { throwit } from './utils'
+// // import { EventStream, IEventStream } from './eventstream'
+// // import { throwit } from './utils'
 
-export interface IEventStore {
-  streamForDomain<TState>(domain: IDomain<TState>): rx.Observable<IEvent<any>>
-}
+// export interface IEventStore {
+//   streamForDomain<TState>(domain: IDomain<TState>): rx.Observable<IEvent<any>>
+// }
 
 // let a: IEventStore
 // a.streamForDomain(null).e

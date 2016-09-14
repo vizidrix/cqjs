@@ -8,11 +8,11 @@ import { IAggregateMeta, IMessageMeta } from './cqjs'
 import { IEvent } from './event'
 import { IFunc } from './utils'
 
-export type ICommandHandlerFunc<TState, TCommand, TEvent> = (
+export type ICommandHandlerFunc<TState, TCommand, TEvents> = (
   state: TState,
   command: TCommand,
   meta: IAggregateMeta
-) => IEvent<TEvent>
+) => IEvent<TEvents>
 
 export interface ICommand<TCommand> {
   meta: IMessageMeta,
@@ -27,23 +27,23 @@ export type ICommandCtor<TCommand> = (
   version?: number
 ) => ICommand<TCommand>
 
-export interface ICommandDef<TState, TCommand, TEvent> {
+export interface ICommandDef<TState, TCommand, TEvents> {
   kind: 'COMMANDDEF',
   getMeta: IFunc<IMessageMeta>,
-  getHandler: IFunc<ICommandHandlerFunc<TState, TCommand, TEvent>>,
+  getHandler: IFunc<ICommandHandlerFunc<TState, TCommand, TEvents>>,
 
   new: ICommandCtor<TCommand>,
 }
 
-export class CommandDef<TState, TCommand, TEvent> {
+export class CommandDef<TState, TCommand, TEvents> {
   public kind: 'COMMANDDEF'
   private meta: IMessageMeta
-  private handler: ICommandHandlerFunc<TState, TCommand, TEvent>
+  private handler: ICommandHandlerFunc<TState, TCommand, TEvents>
 
   constructor(
     uri: string,
     type: string,
-    handler: ICommandHandlerFunc<TState, TCommand, TEvent>
+    handler: ICommandHandlerFunc<TState, TCommand, TEvents>
   ) {
     this.meta = {
       kind: 'COMMAND',
@@ -57,7 +57,7 @@ export class CommandDef<TState, TCommand, TEvent> {
     return this.meta
   }
 
-  public getHandler(): ICommandHandlerFunc<TState, TCommand, TEvent> {
+  public getHandler(): ICommandHandlerFunc<TState, TCommand, TEvents> {
     return this.handler
   }
 

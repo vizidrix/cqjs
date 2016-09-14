@@ -31,12 +31,19 @@ export class Context {
   }
 }
 
-const VIEW = View<IContext>(URI, new Context(),
+//const VIEW = new View<IContext>(URI, new Context(),
+// const VIEW = new View(URI,
 
-  Hello.TITLE_CHANGED.handler<IContext>((c, e) => {
-    c.setTitle(e.current)
-  })
+//   Hello.TITLE_CHANGED.handler<IContext>((c, e) => {
+//     c.setTitle(e.current)
+//   })
 
-)
+// )
+
+const VIEW = new View<IContext>(URI)
+
+VIEW.handle(Hello.TITLE_CHANGED, (c, e) => {
+  c.setTitle(e.current)
+})
 
 export default VIEW

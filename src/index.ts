@@ -18,8 +18,9 @@ export {
 
 export {
   Domain,
+  DomainMeta,
   IDomainConfig,
-  IDomain
+  IDomainMeta
 } from './domain'
 
 export {
@@ -32,7 +33,7 @@ export {
 } from './event'
 
 export {
-  IEventStore
+  // IEventStore
 } from './eventstore'
 
 export {

@@ -5,7 +5,8 @@
 'use strict'
 
 // import { IEvent, IEventHandlerDef } from './event'
-import { IEventHandlerDef } from './event'
+// import { IEventHandlerDef } from './event'
+import { IEventDef, IEventHandlerDef, IEventHandlerFunc } from './event'
 // import { ISubscription, Subscription } from './subscription'
 // import { ErrorFunc, IAction1, IFunc } from './utils'
 import { IFunc } from './utils'
@@ -15,7 +16,7 @@ import { IFunc } from './utils'
 export interface IView<TContext> {
   kind: 'VIEW'
   getUri: IFunc<string>
-  getContext: IFunc<TContext>
+  // getContext: IFunc<TContext>
   getHandlerDefs: IFunc<Array<IEventHandlerDef<TContext, any>>>
   // getHandlers: () => Array<IAction1<IEvent<any>>>,
   // getSubscriptions: () => Array<ISubscription>,
@@ -28,22 +29,27 @@ export function isView<TContext>(target: any): target is IView<TContext> {
 export class View<TContext> implements IView<TContext> {
   public kind: 'VIEW'
   private uri: string
-  private context: TContext
+  // private context: TContext
   private handlerDefs: Array<IEventHandlerDef<TContext, any>>
 
   constructor (
-    uri: string,
-    context: TContext,
-    ...handlerDefs: Array<IEventHandlerDef<TContext, any>>
+    uri: string
+    // context: TContext,
+    // ...handlerDefs: Array<IEventHandlerDef<TContext, any>>
   ) {
     this.uri = uri
-    this.context = context
-    this.handlerDefs = handlerDefs
+    // this.context = context
+    this.handlerDefs = []// handlerDefs
   }
 
   public getUri() { return this.uri }
-  public getContext() { return this.context }
+  // public getContext() { return this.context }
   public getHandlerDefs() { return this.handlerDefs }
+
+  // public handle<TEvent>(handlerDef: IEventHandlerDef<TContext, TEvent>, any)
+  public handle<TEvent>(eventDef: IEventDef<any, TEvent>, handler: IEventHandlerFunc<TContext, TEvent>) {
+    this.handlerDefs.push(eventDef.handler(handler))
+  }
 }
 
 // export function View<TContext>(
