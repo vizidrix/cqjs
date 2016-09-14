@@ -4,44 +4,40 @@
 
 'use strict'
 
-import { View } from '../../src'
+import { IAction1, IFunc, View } from '../../src'
 
 import * as Hello from '../domains/hello'
 
 export const URI = 'https://github.com/vizidrix/cqjs/test/views/helloHistory'
 
 export type IContext = {
-  titles: Array<string>,
-  appendTitle: (title: string) => void,
+  getTitles: IFunc<Array<string>>,
+  appendTitle: IAction1<string>,
 }
 
-export const Context = () => {
-  const titles = []
-  return {
-    titles: titles,
-    appendTitle: (title: string) => {
-      titles.push(title)
-    },
+export class Context {
+  private titles: Array<string>
+
+  constructor() {
+    this.titles = []
+  }
+
+  public getTitles(): Array<string> {
+    return this.titles
+  }
+  
+  public appendTitle(title: string) {
+    this.titles.push(title)
   }
 }
 
-const VIEW = View<IContext>(URI, Context(),
+//const VIEW = new View<IContext>(URI, new Context(),
+const VIEW = new View(URI, new Context(),
 
-  Hello.TITLE_CHANGED.handler<IContext>((c, e, m) => {
-    c.appendTitle(e.current)
+  Hello.TITLE_CHANGED.handler<IContext>((context, event, meta) => {
+    context.appendTitle(event.current)
   })
 
 )
 
 export default VIEW
-
-
-// const VIEW = new View(URI, new Context(),
-
-//   Hello.TITLE_CHANGED.handler((c: Context, e) => {
-//     c.appendTitle(e.current)
-//   })
-
-// )
-
-// export default VIEW

@@ -1,7 +1,7 @@
 
 import React, { PropTypes } from 'react'
 
-import type Todo from '../domains/Todo'
+import { Todo } from '../domains/Todo'
 
 const Todo = (system: ISystem, todo: {
   id: number,

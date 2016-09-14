@@ -1,3 +1,4 @@
+/// <reference path="../typings/modules/lodash/index.d.ts" />
 /*
  * cqjs/src/domain.js
  */
@@ -51,6 +52,10 @@ export interface IDomain<TState> {
   ) => IEventDef<TState, TEvent>
 }
 
+export function isDomainMeta<TState>(target: any): target is IDomainMeta<TState> {
+  return (<IDomainMeta<TState>> target).kind === 'DOMAIN_META'
+}
+
 export class DomainMeta<TState> implements IDomainMeta<TState> {
   public kind: 'DOMAIN_META'
   private uri: string
@@ -63,10 +68,6 @@ export class DomainMeta<TState> implements IDomainMeta<TState> {
     this.uri = uri
     this.config = config
     this.initialState = initialState
-  }
-
-  public static isDomainMeta<TState>(target: any): target is IDomainMeta<TState> {
-    return (<IDomainMeta<TState>> target).kind === 'DOMAIN_META'
   }
 
   public getUri(): string {
@@ -82,6 +83,10 @@ export class DomainMeta<TState> implements IDomainMeta<TState> {
   }
 }
 
+export function isDomain<TState>(target: any): target is IDomain<TState> {
+  return (<IDomain<TState>> target).kind === 'DOMAIN'
+}
+
 export class Domain<TState> implements IDomain<TState> {
   public kind: 'DOMAIN'
   private meta: IDomainMeta<TState>
@@ -94,10 +99,6 @@ export class Domain<TState> implements IDomain<TState> {
     this.meta = new DomainMeta(uri, initialState, config)
     this.commands = []
     this.events = []
-  }
-
-  public static isDomain<TState>(target: any): target is IDomain<TState> {
-    return (<IDomain<TState>> target).kind === 'DOMAIN'
   }
 
   public getMeta(): IDomainMeta<TState> {

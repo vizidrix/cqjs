@@ -4,11 +4,48 @@
 
 'use strict'
 
-export { ICommand, ICommandHandlerFunc, ICommandCtor, ICommandDef } from './command'
+export {
+  CommandDef,
+  ICommand,
+  ICommandHandlerFunc,
+  ICommandCtor,
+  ICommandDef
+} from './command'
 
-export { CommandDef } from './command'
+export {
+  IAggregateMeta
+} from './cqjs'
 
-export { IAggregateMeta } from './cqjs'
+export {
+  Domain,
+  IDomainConfig,
+  IDomain
+} from './domain'
+
+export {
+  EventDef,
+  IEventLoaderFunc,
+  IEventHandlerFunc,
+  IEventHandlerDef,
+  IEventDef,
+  IEvent
+} from './event'
+
+export {
+  IEventStore
+} from './eventstore'
+
+export {
+  IKeyFunc,
+  Random,
+  Singleton,
+  UUIDKeyGen
+} from './keygen'
+
+export {
+  IProcess,
+  Process,
+} from './process'
 
 export {
   IAction,
@@ -25,41 +62,24 @@ export {
   TrueFunc,
 } from './utils'
 
-export { IDomainConfig, IDomain } from './domain'
+export {
+  IView,
+  View,
+} from './view'
 
-export { Domain } from './domain'
+// export { EventStore } from './eventstore'
 
-export { IEventLoaderFunc, IEventHandlerFunc, IEventHandlerDef, IEventDef, IEvent } from './event'
+// export { IEventStream } from './eventstream'
 
-export { EventDef } from './event'
+// export { EventStream } from './eventstream'
 
-export { IEventStore } from './eventstore'
+// export { ISubscription } from './subscription'
 
-export { EventStore } from './eventstore'
+// export { Subscription } from './subscription'
 
-export { IEventStream } from './eventstream'
+// export { IActor, ISystem } from './system'
 
-export { EventStream } from './eventstream'
-
-export { IKeyFunc } from './keygen'
-
-export { Singleton, Random, UUIDKeyGen } from './keygen'
-
-export { IProcess } from './process'
-
-export { Process } from './process'
-
-export { ISubscription } from './subscription'
-
-export { Subscription } from './subscription'
-
-export { IActor, ISystem } from './system'
-
-export { System } from './system'
-
-export { IView } from './view'
-
-export { View } from './view'
+// export { System } from './system'
 
 /*
 * This is a dummy function to check if the function name has been altered by minification.

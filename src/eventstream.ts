@@ -5,51 +5,51 @@
 
 'use strict'
 
-import { IDomain } from './domain'
-import { IEvent } from './event'
+// import { IDomain } from './domain'
+// import { IEvent } from './event'
 
-import { throwit } from './utils'
+// import { throwit } from './utils'
 
-export type IEventStream<TState> = {
-  kind: 'EVENTSTREAM',
+// export type IEventStream<TState> = {
+//   kind: 'EVENTSTREAM',
 
-  getDomain: () => IDomain<TState>,
-  getKey: () => string,
-  getEvents: () => Array<IEvent<any>>,
+//   getDomain: () => IDomain<TState>,
+//   getKey: () => string,
+//   getEvents: () => Array<IEvent<any>>,
 
-  append: (...events: Array<IEvent<any>>) => void,
-  load: () => TState,
-}
+//   append: (...events: Array<IEvent<any>>) => void,
+//   load: () => TState,
+// }
 
-export const EventStream = <TState>(domain: IDomain<TState>, key: string, ...initialEvents: Array<IEvent<any>>) => {
-  let data = initialEvents
-  return {
-    append: (...events: Array<IEvent<any>>) => {
-      data.push(...events)
-    },
-    getDomain: () => domain,
-    getEvents: () => data,
-    getKey: () => key,
-    kind: 'EVENTSTREAM',
-    load: (): TState => {
-      // const events = domain.getEventsMap
-      const events = domain.getEvents()
-      const state = domain.getMeta().getInitialState()// _.cloneDeep(domain.initial_state)
-      const meta = { key, version: 0 }
-      return data.reduce((s, curr, index) => {
-        const eventType = curr.meta.type
-        const uri = domain.getMeta().getUri()
-        if (!data.hasOwnProperty(eventType)) {
-          throwit('Invalid event [' + eventType + '] in domain [' + uri + ']')
-        }
-        meta.version = index
-        // return events[eventType].loader(s, curr.payload, meta)
-        const loader = events.filter(e => e.getMeta().type === eventType)[0].getLoader()
-        return loader(s, curr.payload, meta)
-      }, state)
-    },
-  }
-}
+// export const EventStream = <TState>(domain: IDomain<TState>, key: string, ...initialEvents: Array<IEvent<any>>) => {
+//   let data = initialEvents
+//   return {
+//     append: (...events: Array<IEvent<any>>) => {
+//       data.push(...events)
+//     },
+//     getDomain: () => domain,
+//     getEvents: () => data,
+//     getKey: () => key,
+//     kind: 'EVENTSTREAM',
+//     load: (): TState => {
+//       // const events = domain.getEventsMap
+//       const events = domain.getEvents()
+//       const state = domain.getMeta().getInitialState()// _.cloneDeep(domain.initial_state)
+//       const meta = { key, version: 0 }
+//       return data.reduce((s, curr, index) => {
+//         const eventType = curr.meta.type
+//         const uri = domain.getMeta().getUri()
+//         if (!data.hasOwnProperty(eventType)) {
+//           throwit('Invalid event [' + eventType + '] in domain [' + uri + ']')
+//         }
+//         meta.version = index
+//         // return events[eventType].loader(s, curr.payload, meta)
+//         const loader = events.filter(e => e.getMeta().type === eventType)[0].getLoader()
+//         return loader(s, curr.payload, meta)
+//       }, state)
+//     },
+//   }
+// }
 
 /*
 export class EventStream<TState> {

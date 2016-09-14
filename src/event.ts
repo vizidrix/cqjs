@@ -28,8 +28,8 @@ export interface IEventHandlerDef<TContext, TEvent> {
 export interface IEventDef<TState, TEvent> {
   kind: 'EVENTDEF',
   getMeta: IFunc<IMessageMeta>,
-  getLoader: IFunc<IEventLoaderFunc<TState, TEvent>>,
-  getHandler: <TContext>(
+  loader: IFunc<IEventLoaderFunc<TState, TEvent>>,
+  handler: <TContext>(
     handler: IEventHandlerFunc<TContext, TEvent>
   ) => IEventHandlerDef<TContext, TEvent>,
 
@@ -44,22 +44,22 @@ export interface IEvent<TEvent> {
 export class EventDef<TState, TEvent> {
   public kind: 'EVENTDEF'
   private meta: IMessageMeta
-  private loader: IEventLoaderFunc<TState, TEvent>
+  private loaderFunc: IEventLoaderFunc<TState, TEvent>
   private handlerFunc: <TContext>(
-    handler: IEventHandlerFunc<TContext, TEvent>
+    handlerFunc: IEventHandlerFunc<TContext, TEvent>
   ) => IEventHandlerDef<TContext, TEvent>
 
   constructor(
     uri: string,
     type: string,
-    loader: IEventLoaderFunc<TState, TEvent>
+    loaderFunc: IEventLoaderFunc<TState, TEvent>
   ) {
     this.meta = {
       kind: 'EVENT',
       uri,
       type,
     }
-    this.loader = loader
+    this.loaderFunc = loaderFunc
     this.handlerFunc = <TContext>(
       handler: IEventHandlerFunc<TContext, TEvent>
     ): IEventHandlerDef<TContext, TEvent> => {
@@ -75,11 +75,11 @@ export class EventDef<TState, TEvent> {
     return this.meta
   }
 
-  public getLoader(): IEventLoaderFunc<TState, TEvent> {
-    return this.loader
+  public loader(): IEventLoaderFunc<TState, TEvent> {
+    return this.loaderFunc
   }
 
-  public getHandler<TContext>(
+  public handler<TContext>(
     handler: IEventHandlerFunc<TContext, TEvent>
   ): IEventHandlerDef<TContext, TEvent> {
     return this.handlerFunc(handler)

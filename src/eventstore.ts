@@ -4,49 +4,61 @@
 
 'use strict'
 
+import * as rx from 'rxjs'
+
 import { IDomain } from './domain'
-import { EventStream, IEventStream } from './eventstream'
-import { throwit } from './utils'
+import { IEvent } from './event'
 
-export type IEventStore<TState> = {
-  stream: <TState>(domain: IDomain<TState>, key: string) => IEventStream<TState>,
+// import { EventStream, IEventStream } from './eventstream'
+// import { throwit } from './utils'
+
+export interface IEventStore {
+  streamForDomain<TState>(domain: IDomain<TState>): rx.Observable<IEvent<any>>
 }
 
-export type EventStoreData = { [domain: string]: { [key: string]: IEventStream<any> } }
+// let a: IEventStore
+// a.streamForDomain(null).e
 
-export const EventStore = (...streams: Array<IEventStream<any>>) => {
-  const length = streams.length
-  let data = {}
-  let i = -1
-  while (++i < length) {
-    const stream = streams[i]
-    const domain = stream.getDomain()
-    const key = stream.getKey()
-    const uri = domain.getMeta().getUri()
-    if (!data.hasOwnProperty(uri)) { // Make sure entry exists for domain uri
-      data[uri] = {}
-    }
-    const domainStream = data[uri]
-    if (domainStream.hasOwnProperty(key)) {
-      throwit('Duplicate stream in event store ctor')
-    }
-    domainStream[key] = stream
-  }
+// export interface IEventStore<TState> {
+//   stream: <TState>(domain: IDomain<TState>, key: string) => IEventStream<TState>,
+// }
 
-  return {
-    stream: <TState>(domain: IDomain<TState>, key: string): IEventStream<TState> => {
-      const uri = domain.getMeta().getUri()
-      if (!data.hasOwnProperty(uri)) {
-        data[uri] = {}
-      }
-      let domainStream = data[uri]
-      if (!domainStream.hasOwnProperty(key)) {
-        domainStream[key] = EventStream(domain, key)
-      }
-      return domainStream[key]
-    },
-  }
-}
+// export interface EventStoreData {
+//   [domain: string]: { [key: string]: IEventStream<any> }
+// }
+
+// export const EventStore = (...streams: Array<IEventStream<any>>) => {
+//   const length = streams.length
+//   let data = {}
+//   let i = -1
+//   while (++i < length) {
+//     const stream = streams[i]
+//     const domain = stream.getDomain()
+//     const key = stream.getKey()
+//     const uri = domain.getMeta().getUri()
+//     if (!data.hasOwnProperty(uri)) { // Make sure entry exists for domain uri
+//       data[uri] = {}
+//     }
+//     const domainStream = data[uri]
+//     if (domainStream.hasOwnProperty(key)) {
+//       throwit('Duplicate stream in event store ctor')
+//     }
+//     domainStream[key] = stream
+//   }
+
+//   return {
+//     stream: <TState>(uri: string, key: string): IEventStream<TState> => {
+//       if (!data.hasOwnProperty(uri)) {
+//         data[uri] = {}
+//       }
+//       let domainStream = data[uri]
+//       if (!domainStream.hasOwnProperty(key)) {
+//         domainStream[key] = EventStream(uri, key)
+//       }
+//       return domainStream[key]
+//     },
+//   }
+// }
 
 /*
 export class EventStore {

@@ -6,7 +6,7 @@
 
 'use strict'
 
-import type { ICommandDef, IEventDef } from 'cqjs'
+//import type { ICommandDef, IEventDef } from 'cqjs'
 import { Domain, Singleton } from 'cqjs'
 
 export const INITIAL_STATE = 0
@@ -15,14 +15,16 @@ export const DOMAIN = new Domain('COUNTER', INITIAL_STATE, { keyFunc: Singleton 
 
 export const VALUE_UPDATED = DOMAIN.Event('VALUE_UPDATED', (_, e) => e)
 
-export const INCREMENT: ICommandDef<number, number> = DOMAIN.Command('INCREMENT',
+
+//export const INCREMENT: ICommandDef<number, number> = DOMAIN.Command('INCREMENT',
+export const INCREMENT = DOMAIN.command<number>('INCREMENT',
   (a) => {
     //a
     //let t: ICommandDef = {}
-    //VALUE_UPDATED.new(a + 1)
+    return VALUE_UPDATED.new(a + 1)
   })
 
-export const DECREMENT: IEventDef<number, number> = DOMAIN.Command('DECREMENT',
+export const DECREMENT = DOMAIN.Command('DECREMENT',
   (a) => VALUE_UPDATED.new(a - 1))
 
 export const INCREMENT_IF_ODD = DOMAIN.Command('INCREMENT_IF_ODD',

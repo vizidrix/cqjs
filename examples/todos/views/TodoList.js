@@ -15,11 +15,10 @@ export type ITodo = {
   active: boolean,
 }
 
-let context: Array<ITodo> = []
-
-const VIEW = new View('TODO_LIST', context,
+const VIEW = new View<Array<ITodo>>('TODO_LIST', [],
 
   DOMAINDEF.ADDED.handler((c, e) => {
     //c.
   })
+  
 )

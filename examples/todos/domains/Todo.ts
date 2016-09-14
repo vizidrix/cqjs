@@ -6,15 +6,14 @@
 
 'use strict'
 
-import type { ICommandDef, IEventDef } from 'cqjs'
 import { Domain } from 'cqjs'
 
-export type ITodo = {
+export interface ITodo {
   title: string,
   completed: boolean,
 }
 
-export const DOMAIN = new Domain('TODOS', {
+export const DOMAIN = new Domain<ITodo>('TODOS', {
   completed: false,
 })
 
@@ -24,7 +23,7 @@ export type IADDED = {
   active: boolean,
 }
 
-export const ADDED: IEventDef<ITodo, IADDED> = DOMAIN.Event('ADDED', (a, e) => {
+export const ADDED = DOMAIN.Event<IADDED>('ADDED', (a, e) => {
   return a
 })
 /*
