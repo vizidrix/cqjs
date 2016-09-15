@@ -6,7 +6,7 @@
 
 import { IAction1, IFunc, View } from '../../src'
 
-import * as Hello from '../domains/hello'
+import Hello from '../domains/hello'
 
 export const URI: string = 'https://github.com/vizidrix/cqjs/test/views/helloState'
 
@@ -16,6 +16,8 @@ export type IContext = {
 }
 
 export class Context {
+  public kind: 'VIEW_CONTEXT'
+
   private title: string
 
   constructor() {
@@ -31,19 +33,14 @@ export class Context {
   }
 }
 
-//const VIEW = new View<IContext>(URI, new Context(),
-// const VIEW = new View(URI,
+export default View(URI, new Context(), $ => [
 
-//   Hello.TITLE_CHANGED.handler<IContext>((c, e) => {
-//     c.setTitle(e.current)
-//   })
+  $(Hello.TITLE_CHANGED, (c, e, m) => {
+    c.setTitle(e.payload.current)
+  }),
 
-// )
+  $(Hello.TITLE_CHANGED, (c, e) => {
+    c.setTitle(e.payload.current)
+  }),
 
-const VIEW = new View<IContext>(URI)
-
-VIEW.handle(Hello.TITLE_CHANGED, (c, e) => {
-  c.setTitle(e.current)
-})
-
-export default VIEW
+])

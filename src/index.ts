@@ -26,7 +26,7 @@ export {
 export {
   EventDef,
   IEventLoaderFunc,
-  IEventHandlerFunc,
+  // IEventHandlerFunc,
   IEventHandlerDef,
   IEventDef,
   IEvent

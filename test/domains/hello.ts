@@ -28,7 +28,7 @@ export type ISET_TITLE = {
   newTitle: string /// the value the caller would like to set on the aggregate
 }
 
-export const DOMAIN = Domain(URI, INITIAL_STATE, {}, $ => ({
+export default Domain(URI, INITIAL_STATE, { keyFunc: Singleton }, $ => ({
 
   TITLE_CHANGED: $<ITITLE_CHANGED>('TITLE_CHANGED', (a, e) => {
     a.title = e.current
@@ -53,5 +53,3 @@ export const DOMAIN = Domain(URI, INITIAL_STATE, {}, $ => ({
   })
 
 }))
-
-export default DOMAIN

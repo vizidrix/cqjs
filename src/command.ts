@@ -14,10 +14,14 @@ export type ICommandHandlerFunc<TState, TCommand, TEvents> = (
   meta: IAggregateMeta
 ) => IEvent<TEvents>
 
-export interface ICommand<TCommand> {
-  meta: IMessageMeta,
+export interface ICommandState {
   key?: string,
   version?: number,
+}
+
+export interface ICommand<TCommand> {
+  meta: IMessageMeta,
+  state: ICommandState,
   payload: TCommand,
 }
 
@@ -68,8 +72,7 @@ export class CommandDef<TState, TCommand, TEvents> {
   ): ICommand<TCommand> {
     return {
       meta: this.meta,
-      key,
-      version,
+      state: { key, version },
       payload,
     }
   }

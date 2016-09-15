@@ -6,7 +6,7 @@
 
 import { IAction1, IFunc, View } from '../../src'
 
-import * as Hello from '../domains/hello'
+import Hello from '../domains/hello'
 
 export const URI = 'https://github.com/vizidrix/cqjs/test/views/helloHistory'
 
@@ -31,11 +31,10 @@ export class Context {
   }
 }
 
-//const VIEW = new View(URI, new Context(),
-const VIEW = new View<IContext>(URI)
+export default View(URI, new Context(), $ => [
 
-VIEW.handle(Hello.TITLE_CHANGED, (context, event, meta) => {
-    context.appendTitle(event.current)
-})
+  $(Hello.TITLE_CHANGED, (c, e, m) => {
+    c.appendTitle(e.payload.current)
+  })
 
-export default VIEW
+])
